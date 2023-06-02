@@ -1,0 +1,57 @@
+buildscript {
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "net.serenity-bdd:serenity-single-page-report:3.2.0"
+        classpath "net.serenity-bdd:serenity-gradle-plugin:3.4.2"
+    }
+}
+
+plugins {
+    id "net.serenity-bdd.serenity-gradle-plugin" version "3.2.0"
+    id 'java'
+}
+
+defaultTasks 'clear', 'test', 'aggregate'
+group 'is.demo.serenity'
+version '1.0-SNAPSHOT'
+
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "net.serenity-bdd:serenity-core:3.2.0"
+    implementation "net.serenity-bdd:serenity-junit5:3.2.0"
+    implementation 'net.serenity-bdd:serenity-screenplay:3.2.0'
+    implementation "net.serenity-bdd:serenity-cucumber:3.2.0"
+    implementation "org.junit.jupiter:junit-jupiter-api:5.8.1"
+    implementation "org.junit.jupiter:junit-jupiter-engine:5.8.1"
+    implementation "org.assertj:assertj-core:3.8.0"
+    implementation group: 'org.apache.poi', name: 'poi', version: '3.17'
+    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '3.17'
+    implementation 'org.slf4j:slf4j-simple:1.7.7'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+serenity{
+    testRoot="is.demo.serenity.runners"
+    requirementsBaseDir="src/test/resources/features/AgregarProducto.feature"
+    reports=["single-page-html"]
+}
+
+gradle.startParameter.continueOnFailure = true
+test.finalizedBy(aggregate)
+
+
