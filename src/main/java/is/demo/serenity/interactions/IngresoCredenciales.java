@@ -20,8 +20,7 @@ import static net.serenitybdd.screenplay.Tasks.instrumented;
 
 public class IngresoCredenciales implements Interaction {
 
-    @Page
-    PaginaInicioUI paginaInicioUI;
+
 
     private static ArrayList<Map<String, String>> datosExcel = new ArrayList<>();
 
@@ -33,9 +32,9 @@ public class IngresoCredenciales implements Interaction {
             throw new RuntimeException(e);
         }
 
-        WebElement usuario = paginaInicioUI.getDriver().findElement(By.xpath(TXT_USUARIO.getCssOrXPathSelector()));
-        WebElement clave = paginaInicioUI.getDriver().findElement(By.xpath(TXT_CLAVE.getCssOrXPathSelector()));
-        WebElement iniciarSesion = paginaInicioUI.getDriver().findElement(By.xpath(BUTTON_INICIAR_SESION.getCssOrXPathSelector()));
+        WebElement usuario = TXT_USUARIO.resolveFor(actor);
+        WebElement clave = TXT_CLAVE.resolveFor(actor);
+        WebElement iniciarSesion = BUTTON_INICIAR_SESION.resolveFor(actor);
 
         usuario.clear();
         usuario.sendKeys(datosExcel.get(0).get("Usuario"));

@@ -4,6 +4,7 @@ import is.demo.serenity.ui.PaginaProductoUI;
 import is.demo.serenity.utils.EscrituraExcel;
 import is.demo.serenity.utils.EsperaImplicita;
 import is.demo.serenity.utils.Excel;
+import net.serenitybdd.core.pages.ListOfWebElementFacades;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Question;
 
@@ -42,9 +43,9 @@ public class ProductoValidacionQuestion implements Question<Boolean> {
 
         JavascriptExecutor js = (JavascriptExecutor) paginaProductoUI.getDriver();
 
-        WebElement siguientePagina = paginaProductoUI.getDriver().findElement(By.xpath(BUTTON_SIGUIENTE_PAGINA.getCssOrXPathSelector()));
+        WebElement siguientePagina = BUTTON_SIGUIENTE_PAGINA.resolveFor(actor);
 
-        List<WebElement> productosABuscar = paginaProductoUI.getDriver().findElements(By.xpath((LIST_PRODUCTO_BUSCAR.getCssOrXPathSelector())));
+        ListOfWebElementFacades productosABuscar = LIST_PRODUCTO_BUSCAR.resolveAllFor(actor);
 
 
         do {
@@ -63,7 +64,7 @@ public class ProductoValidacionQuestion implements Question<Boolean> {
 
                 EsperaImplicita.esperaImplicita(2);
 
-                productosABuscar = paginaProductoUI.getDriver().findElements(By.xpath(LIST_PRODUCTO_BUSCAR.getCssOrXPathSelector()));
+                 productosABuscar = LIST_PRODUCTO_BUSCAR.resolveAllFor(actor);
 
                 if (productosABuscar.size() > 0 && productosABuscar.get(productosABuscar.size() - 1).getText().equals(ultimoElemento.getText())) {
                     siguientePagina.click();

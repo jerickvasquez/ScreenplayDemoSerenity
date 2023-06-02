@@ -4,6 +4,7 @@ import is.demo.serenity.ui.PaginaAgregarProductoUI;
 import is.demo.serenity.ui.PaginaProductoUI;
 import is.demo.serenity.utils.EsperaImplicita;
 import is.demo.serenity.utils.Excel;
+import net.serenitybdd.core.pages.ListOfWebElementFacades;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Interaction;
 import net.serenitybdd.screenplay.Performable;
@@ -23,11 +24,7 @@ import static net.serenitybdd.screenplay.Tasks.instrumented;
 public class AgregarNuevoProducto implements Interaction {
 
 
-    @Page
-    PaginaProductoUI paginaProductoUI;
 
-    @Page
-    PaginaAgregarProductoUI paginaAgregarProductoUI;
 
     private static ArrayList<Map<String, String>> datosExcel = new ArrayList<>();
 
@@ -41,15 +38,15 @@ public class AgregarNuevoProducto implements Interaction {
             throw new RuntimeException(e);
         }
 
-        List<WebElement> nuevoProducto = paginaProductoUI.getDriver().findElements(By.xpath(BUTTON_NUEVO_PRODUCTO.getCssOrXPathSelector()));
+        ListOfWebElementFacades nuevoProducto = BUTTON_NUEVO_PRODUCTO.resolveAllFor(actor);
 
         nuevoProducto.get(0).click();
 
-        WebElement nombreProducto = paginaAgregarProductoUI.getDriver().findElement(By.xpath(TXT_NOMBRE_PRODUCTO.getCssOrXPathSelector()));
-        WebElement unidadesStock = paginaAgregarProductoUI.getDriver().findElement(By.xpath(TXT_UNIDADES_PRODUCTO.getCssOrXPathSelector()));
-        WebElement unidadesPedido = paginaAgregarProductoUI.getDriver().findElement(By.xpath(TXT_UNIDADES_PEDIDO.getCssOrXPathSelector()));
-        WebElement nivelReorden = paginaAgregarProductoUI.getDriver().findElement(By.xpath(TXT_NIVEL_REORDEN.getCssOrXPathSelector()));
-        List<WebElement> guardarProducto = paginaAgregarProductoUI.getDriver().findElements(By.xpath(BUTTON_GUARDAR.getCssOrXPathSelector()));
+        WebElement nombreProducto = TXT_NOMBRE_PRODUCTO.resolveFor(actor);
+        WebElement unidadesStock = TXT_UNIDADES_PRODUCTO.resolveFor(actor);
+        WebElement unidadesPedido = TXT_UNIDADES_PEDIDO.resolveFor(actor);
+        WebElement nivelReorden = TXT_NIVEL_REORDEN.resolveFor(actor);
+        ListOfWebElementFacades guardarProducto = BUTTON_GUARDAR.resolveAllFor(actor);
 
         nombreProducto.sendKeys(datosExcel.get(0).get("NombreProducto"));
         unidadesStock.sendKeys(datosExcel.get(0).get("UnidadesStock"));
